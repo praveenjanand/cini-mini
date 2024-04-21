@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: cini-mini
-        image: shashankadur97/devops-mini-cini:1.0.1
+        image: shashankadur97/devops-mini-cini:1.0.2
         ports:
         - containerPort: 5000
 ---
