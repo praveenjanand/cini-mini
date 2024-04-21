@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cini-mini-deployment
+  labels:
+    app: cini-mini
+  namespace: devops
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cini-mini
+  template:
+    metadata:
+      labels:
+        app: cini-mini
+    spec:
+      containers:
+      - name: cini-mini
+        image: shashankadur97/devops-mini-cini:1.0.0
+        ports:
+        - containerPort: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cini-mini-service
+  namespace: devops
+spec:
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 5000
+  selector:
+    app: cini-mini
