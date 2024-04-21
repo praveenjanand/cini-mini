@@ -10,9 +10,11 @@ COPY requirements.txt .
 # Install Flask and other dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the content of the local src directory to the working directory
+# Copy the entire contents of the local template directory into the working directory
+COPY template/ ./template/
+
+# Copy the app.py from the local directory into the working directory
 COPY app.py .
-COPY templates .
 
 # Expose the port the app runs on
 EXPOSE 5000
