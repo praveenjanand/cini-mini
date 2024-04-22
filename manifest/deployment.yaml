@@ -1,74 +1,76 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cini-mini-deployment
-  labels:
-    app: cini-mini
-  namespace: devops
+  name: cini-mini-deployment
+  labels:
+    app: cini-mini
+  namespace: cini-mini
 spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: cini-mini
-  template:
-    metadata:
-      labels:
-        app: cini-mini
-    spec:
-      containers:
-      - name: cini-mini
-        image: shashankadur97/devops-mini-cini:1.0.2
-        ports:
-        - containerPort: 5000
+  replicas: 2
+  selector:
+    matchLabels:
+      app: cini-mini
+  template:
+    metadata:
+      labels:
+        app: cini-mini
+    spec:
+      containers:
+      - name: cini-mini
+        image: shashankadur97/devops-mini-cini:1.0.2
+        ports:
+        - containerPort: 5000
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
-  name: cini-mini-rollout
-  namespace: devops
+  name: cini-mini-rollout
+  namespace: cini-mini
 spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: cini-mini
-  strategy:
-    blueGreen:
-      activeService: cini-mini-service
-      previewService: cini-mini-preview-service
-      autoPromotionEnabled: true
-  template:
-    metadata:
-      labels:
-        app: cini-mini
-    spec:
-      containers:
-      - name: cini-mini
-        image: shashankadur97/devops-mini-cini:1.0.3-stable
-        ports:
-        - containerPort: 5000
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cini-mini
+  strategy:
+    blueGreen:
+      activeService: cini-mini-service
+      previewService: cini-mini-preview-service
+      autoPromotionEnabled: true
+  template:
+    metadata:
+      labels:
+        app: cini-mini
+    spec:
+      containers:
+      - name: cini-mini
+        image: shashankadur97/devops-mini-cini:1.0.3-stable
+        ports:
+        - containerPort: 80
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: cini-mini-service
-  namespace: devops
+  name: cini-mini-service
+  namespace: cini-mini
 spec:
-  ports:
-  - protocol: TCP
-    port: 80
-    targetPort: 5000
-  selector:
-    app: cini-mini
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 5000
+  selector:
+    app: cini-mini
+  type: NodePort
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: cini-mini-preview-service
-  namespace: devops
+  name: cini-mini-preview-service
+  namespace: cini-mini
 spec:
-  ports:
-  - protocol: TCP
-    port: 80
-    targetPort: 5000
-  selector:
-    app: cini-mini
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 5000
+  selector:
+    app: cini-mini
+  type: NodePort
