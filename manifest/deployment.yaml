@@ -1,56 +1,56 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cini-mini-deployment
+  name: movie-booking-app-deployment
   labels:
-    app: cini-mini
+    app: movie-booking-app
   namespace: devops
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: cini-mini
+      app: movie-booking-app
   template:
     metadata:
       labels:
-        app: cini-mini
+        app: movie-booking-app
     spec:
       containers:
-      - name: cini-mini
-        image: shashankadur97/devops-mini-cini:1.0.3-stable
+      - name: movie-booking-app
+        image: jpraveenanand/movie-booking-app:v1.0
         ports:
         - containerPort: 5000
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
-  name: cini-mini-rollout
+  name: movie-booking-app-rollout
   namespace: devops
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: cini-mini
+      app: movie-booking-app
   strategy:
     blueGreen:
-      activeService: cini-mini-service
-      previewService: cini-mini-preview-service
+      activeService: movie-booking-app-service
+      previewService: movie-booking-app-preview-service
       autoPromotionEnabled: true
   template:
     metadata:
       labels:
-        app: cini-mini
+        app: movie-booking-app
     spec:
       containers:
-      - name: cini-mini
-        image: shashankadur97/devops-mini-cini:1.0.3-stable
+      - name: movie-booking-app
+        image: jpraveenanand/movie-booking-app:v1.0
         ports:
         - containerPort: 80
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: cini-mini-service
+  name: movie-booking-app-service
   namespace: devops
 spec:
   ports:
@@ -58,13 +58,13 @@ spec:
     port: 80
     targetPort: 5000
   selector:
-    app: cini-mini
+    app: movie-booking-app
   type: NodePort
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: cini-mini-preview-service
+  name: movie-booking-app-preview-service
   namespace: devops
 spec:
   ports:
@@ -72,5 +72,5 @@ spec:
     port: 80
     targetPort: 5000
   selector:
-    app: cini-mini
+    app: movie-booking-app
   type: NodePort
