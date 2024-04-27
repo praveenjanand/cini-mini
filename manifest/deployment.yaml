@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: movie-booking-app
-        image: jpraveenanand/movie-booking-app:v1.0
+        image: jpraveenanand/movie-booking-app:v2.0
         ports:
         - containerPort: 5000
 ---
