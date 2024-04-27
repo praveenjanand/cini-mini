@@ -61,7 +61,7 @@ spec:
     app: movie-booking-app
   type: NodePort
 ---
-apiVersion: v1
+apiVersion: v2
 kind: Service
 metadata:
   name: movie-booking-app-preview-service
