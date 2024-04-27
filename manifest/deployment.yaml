@@ -43,7 +43,7 @@ spec:
     spec:
       containers:
       - name: movie-booking-app
-        image: jpraveenanand/movie-booking-app:v1.0
+        image: jpraveenanand/movie-booking-app:v2.0
         ports:
         - containerPort: 80
 ---
@@ -61,7 +61,7 @@ spec:
     app: movie-booking-app
   type: NodePort
 ---
-apiVersion: v2
+apiVersion: v1
 kind: Service
 metadata:
   name: movie-booking-app-preview-service
